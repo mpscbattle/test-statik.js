@@ -1,7 +1,7 @@
 let questions = [];
 let currentIdx = 0;
 let selectedAnswers = [];
-let timer = 5400; // 90 minutes
+let timer = 1500; // 25 minutes
 let timerInterval;
 
 function loadQuestions() {

@@ -89,24 +89,29 @@ function submitResults() {
 }
 
 function showAnalysis() {
-    document.getElementById("reportCard").style.display = "none";
-    document.getElementById("analysisCard").style.display = "block";
-    const container = document.getElementById("analysisContent");
+    // १. रिपोर्ट कार्ड लपवू नका, ते 'block' ठेवा जेणेकरून ते वर दिसेल
+    document.getElementById("reportCard").style.display = "block";
     
+    // २. ॲनालिसिस कार्ड खाली दाखवा
+    document.getElementById("analysisCard").style.display = "block";
+    
+    // ३. थेट ॲनालिसिस सेक्शनवर जाण्यासाठी स्क्रोल करा (पर्यायी)
+    document.getElementById("analysisCard").scrollIntoView({ behavior: 'smooth' });
+
+    const container = document.getElementById("analysisContent");
     container.innerHTML = questions.map((q, i) => {
         const userAns = selectedAnswers[i];
         let status = userAns === undefined ? "Not Attempted" : (userAns === q.answer ? "Correct" : "Wrong");
         let fClass = userAns === undefined ? "not-attempted-feedback" : (userAns === q.answer ? "correct-feedback" : "wrong-feedback");
         
-        // ॲनालिसिससाठी फक्त 'Question : 1' असे टेक्स्ट लेबल दिले आहे (Circle काढला आहे)
         return `
             <div class="analysis-box">
                 <span class="q-label-analysis">Question : ${i + 1}</span>
                 <div class="question">${q.question}</div>
                 <div class="options">
-                    ${q.options.map((opt, j) => {
+                    ${q.options.map((j_opt, j) => {
                         let optClass = (j === q.answer) ? "correct" : (j === userAns ? "wrong" : "");
-                        return `<div class="option ${optClass}">${opt}</div>`;
+                        return `<div class="option ${optClass}">${j_opt}</div>`;
                     }).join('')}
                 </div>
                 <div class="feedback ${fClass}">${status}</div>
@@ -114,6 +119,7 @@ function showAnalysis() {
             </div>`;
     }).join('');
 }
+
 
 document.getElementById("centerStartBtn").onclick = () => {
     loadQuestions();
